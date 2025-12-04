@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Business Intelligence Portfolio - Call Center Performance Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+        content="Business Intelligence portfolio showcasing a Call Center Performance dashboard and the operational recommendations derived from it." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+      :root {
+	--bg: #050816;
+	--bg-alt: #0b1020;
+	--bg-soft: #101426;
+	--accent: #2f80ed;
+	--accent-soft: rgba(134, 134, 134, 0.15);
+	--accent-strong: #1f5fb1;
+	--text-main: #f5f7ff;
+	--text-muted: #a5b1d8;
+	--border-subtle: #232846;
+	--card-radius: 18px;
+	--shadow-soft: 0 24px 60px rgba(0,0,0,0.65);
+	--transition-fast: 0.18s ease-out;
+	--max-width: 1120px;
+}
+      ///
+      --accent-strong: #1f5fb1;
+      --text-main: #f5f7ff;
+      --text-muted: #a5b1d8;
+      --border-subtle: #232846;
+      --card-radius: 18px;
+      --shadow-soft: 0 24px 60px rgba(0,0,0,0.65);
+      --transition-fast: 0.18s ease-out;
+      --max-width: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101b3a 0, #050816 45%, #020308 100%);
+      color: var(--text-main);
+      scroll-behavior: smooth;
+    }
+
+    body { min-height: 100vh; }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { max-width: 100%; display: block; }
+
+    .page-shell {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 18px 18px 64px;
+    }
+
+    /* Header / Nav --------------------------------------------------------- */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom,
+        rgba(5,8,22,0.96),
+        rgba(5,8,22,0.95),
+        rgba(5,8,22,0.92),
+        transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px 6px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      background: conic-gradient(from 180deg, #2f80ed, #56ccf2, #9b51e0, #2f80ed);
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .brand-text-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .nav-links a {
+      padding: 6px 0;
+      position: relative;
+      color: var(--text-muted);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2f80ed, #9b51e0);
+      transition: width var(--transition-fast);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text-main);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after {
+      width: 100%;
+    }
+
+    .nav-cta { display: none; }
+
+    /* Hero ----------------------------------------------------------- */
+    .hero {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(47,128,237,0.06);
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(47,128,237,0.35);
+    }
+
+    .eyebrow i { font-size: 11px; }
+
+    .hero h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(32px, 4vw, 40px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 span.accent {
+      background: linear-gradient(110deg, #56ccf2 0%, #2f80ed 30%, #9b51e0 80%);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 34rem;
+    }
+
+    .hero-badges {
+      margin: 16px 0 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hero-badge {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(8,15,40,0.9);
+      color: var(--text-muted);
+    }
+
+    .hero-cta-row {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+                  background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2f80ed, #4c6fff);
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(15,76,129,0.65);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(15,76,129,0.9);
+      background: linear-gradient(135deg, #2f80ed, #305ef6);
+    }
+
+    .btn-outline {
+      background: rgba(5,8,22,0.8);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-note strong { color: #fff; }
+
+    /* Hero card ------------------------------------------------------------ */
+    .hero-card {
+      border-radius: 22px;
+      background: radial-gradient(circle at top left,
+        rgba(47,128,237,0.32) 0,
+        rgba(47,128,237,0.04) 40%,
+        rgba(0,0,0,0.88) 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: var(--shadow-soft);
+      padding: 14px 16px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .hero-card-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .hero-card-tag {
+      font-size: 11px;
+      padding: 4px 9px;
+      background: rgba(11,21,59,0.8);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-muted);
+    }
+
+    .mini-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .mini-metric {
+      padding: 8px 9px;
+      border-radius: 12px;
+      background: rgba(9,13,36,0.9);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .mini-metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .mini-metric-value {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .mini-metric-sub {
+      font-size: 11px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .hero-card-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-card-foot span.highlight { color: #56ccf2; }
+
+    /* Sections ------------------------------------------------------------- */
+    section { margin-top: 42px; }
+
+    .section-heading {
+      font-size: 18px;
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 40rem;
+    }
+
+    .subsection-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin: 26px 0 4px;
+    }
+
+    /* Dashboard section ---------------------------------------------------- */
+    .dashboard-layout {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .dashboard-card {
+      border-radius: var(--card-radius);
+      background: rgba(7,11,30,0.98);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .dashboard-card img { display: block; }
+
+    .dashboard-card-caption {
+      padding: 10px 12px 11px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dashboard-card-caption span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(16,22,54,0.9);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .dashboard-explainer {
+      border-radius: var(--card-radius);
+      background: rgba(7,11,30,0.96);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 15px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+   .explainer-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 40px;
+  background: rgba(8, 12, 34, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.explainer-tab {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  cursor: pointer;
+
+  padding: 8px 16px;
+  border-radius: 20px;
+
+  background: transparent;
+  color: var(--text-muted);
+
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.explainer-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.explainer-tab.active {
+  background: linear-gradient(120deg, #2f80ed, #9b51e0);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
+
+    .explainer-body {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .explainer-body p { margin: 6px 0; }
+
+    .explainer-bullets {
+      margin: 8px 0 5px 14px;
+      padding: 0;
+    }
+
+    .explainer-bullets li { margin: 3px 0; }
+
+    .explainer-meta {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .explainer-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .dashboard-tabs-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .dashboard-tab-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .dashboard-tab-card h3 {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .dashboard-tab-card p { margin: 2px 0 4px; }
+
+    .dashboard-tab-card ul {
+      margin: 2px 0 0 16px;
+      padding: 0;
+    }
+
+    .dashboard-tab-card li { margin: 2px 0; }
+
+    /* Metrics section ------------------------------------------------------ */
+    .metrics-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .metric-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .metric-card {
+      border-radius: 16px;
+      padding: 11px 11px 10px;
+      background: rgba(8,12,33,0.95);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border var(--transition-fast), box-shadow var(--transition-fast),
+                  transform var(--transition-fast), background var(--transition-fast);
+    }
+
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left,
+        rgba(47,128,237,0.25), transparent 55%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      pointer-events: none;
+    }
+
+    .metric-card:hover {
+      border-color: rgba(86,204,242,0.75);
+      box-shadow: 0 18px 38px rgba(0,0,0,0.8);
+      transform: translateY(-1px);
+      background: rgba(10,16,42,0.98);
+    }
+
+    .metric-card.active {
+      border-color: rgba(47,128,237,0.98);
+      box-shadow: 0 24px 50px rgba(8,45,90,0.95);
+    }
+
+    .metric-card.active::before { opacity: 1; }
+
+    .metric-name {
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .metric-chip {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(47,128,237,0.15);
+      color: #8ac4ff;
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .metric-tagline {
+      font-size: 10px;
+      color: #56ccf2;
+      margin-top: 3px;
+    }
+
+    .metric-detail-panel {
+      border-radius: 16px;
+      background: var(--bg-soft);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 12px 13px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .metric-detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .metric-detail-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .metric-detail-kpi {
+      font-family: "Roboto Mono", ui-monospace;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .metric-detail-formula {
+      font-size: 11px;
+      font-family: "Roboto Mono", ui-monospace;
+      padding: 4px 6px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.4);
+      color: #a4ffdc;
+      border: 1px solid rgba(164,255,220,0.2);
+      word-break: break-word;
+    }
+
+    .metric-detail-body {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .metric-detail-body h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-main);
+      margin: 6px 0 2px;
+    }
+
+    .metric-detail-body p { margin: 3px 0; }
+
+    .metric-detail-body ul {
+      margin: 4px 0 2px 16px;
+      padding-left: 0;
+    }
+
+    .metric-detail-body li { margin: 2px 0; }
+
+    /* Process & skills ----------------------------------------------------- */
+    .process-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-left: 1px dashed rgba(255,255,255,0.14);
+    }
+
+    .timeline-item {
+      padding-left: 14px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #2f80ed;
+      box-shadow: 0 0 0 4px rgba(47,128,237,0.25);
+    }
+
+    .timeline-item-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .timeline-item-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .skill-card {
+      padding: 9px 9px 8px;
+      border-radius: 14px;
+      background: rgba(8,12,34,0.92);
+      border: 1px solid rgba(255,255,255,0.05);
+      font-size: 12px;
+    }
+
+    .skill-card h4 {
+      margin: 0 0 3px;
+      font-size: 12px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .skill-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+    }
+
+      /* Contact -------------------------------------------------------------- */
+    .contact-card {
+      margin-top: 18px;
+      border-radius: var(--card-radius);
+      background: rgba(7,11,30,0.96);
+      border: 1px solid var(--border-subtle);
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .contact-intro {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 34rem;
+    }
+
+    .contact-socials {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .social-pill {
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      background: rgba(5,8,22,0.9);
+      cursor: pointer;
+      transition: border 0.18s ease, background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+    }
+
+    .social-pill i {
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .social-pill-large {
+      padding: 4px 16px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .social-pill:hover {
+      border-color: rgba(47,128,237,0.9);
+      background: rgba(15,24,60,0.98);
+      color: #e5ecff;
+      transform: translateY(-1px);
+    }
+
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    footer span { color: #4fa7ff; }
+
+    @media (max-width: 880px) {
+      .hero,
+      .dashboard-layout,
+      .metrics-grid,
+      .process-grid,
+      .contact-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero { margin-top: 22px; }
+      .hero-card { order: -1; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .nav-cta { display: inline-flex; }
+      .page-shell { padding-inline: 14px; }
+      .metric-cards { grid-template-columns: minmax(0, 1fr); }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .contact-card { padding-inline: 12px; }
+      .dashboard-tabs-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (max-width: 520px) {
+      .skills-grid { grid-template-columns: minmax(0, 1fr); }
+      .hero h1 { font-size: 28px; }
+      .hero-subtitle { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+<header class="site-header">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-logo">BI</div>
+      <div>
+        <div class="brand-text-title">Business Intelligence Analyst</div>
+        <div class="brand-text-sub">Call Center Performance Case Study</div>
+      </div>
+    </div>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#process">Approach</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a href="#contact" class="btn btn-primary nav-cta">
+      <i class="fa-regular fa-paper-plane"></i>
+      Contact
+    </a>
+  </div>
+</header>
+
+<main class="page-shell">
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div>
+      <div class="eyebrow">
+        <i class="fa-solid fa-database"></i>
+        Call Center Performance - BI Case Study
+      </div>
+      <h1>
+        Using data to relieve a <span class="accent">call center queue bottleneck</span>
+      </h1>
+      <p class="hero-subtitle">
+        Over three months the center handled 5,000 calls. Once callers reach an agent, performance is strong:
+        81% of calls are resolved and satisfaction averages 3.4/5. The constraint is the queue. The dashboard
+        below turns that pattern into concrete actions on scheduling, call-backs and self-service.
+      </p>
+
+      <div class="hero-badges" aria-label="Target roles">
+        <span class="hero-badge">Business Intelligence</span>
+        <span class="hero-badge">Business Analysis</span>
+        <span class="hero-badge">Data Analysis</span>
+        <span class="hero-badge">Operations Performance</span>
+      </div>
+
+      <div class="hero-cta-row">
+        <a href="#dashboard" class="btn btn-primary">
+          <i class="fa-solid fa-chart-column"></i>
+          View the dashboard
+        </a>
+        <a href="assets/Call-Center-Performance-Dashboard.pbix" class="btn btn-outline" download>
+          <i class="fa-solid fa-download"></i>
+          Download dashboard file
+        </a>
+      </div>
+
+      <p class="hero-note">
+        <strong>Tooling:</strong> Power BI · DAX · SQL · Excel · Requirements gathering with operations leaders
+      </p>
+    </div>
+
+    <aside class="hero-card" aria-label="Key results summary">
+      <div class="hero-card-header">
+        <div>
+          <div class="hero-card-title">Three-month snapshot</div>
+          <div style="font-size:11px;color:var(--text-muted);">All topics · All agents</div>
+        </div>
+        <span class="hero-card-tag">
+          <i class="fa-solid fa-sliders"></i>
+          Fully filterable
+        </span>
+      </div>
+
+      <div class="mini-metrics">
+        <div class="mini-metric">
+          <div class="mini-metric-label">Total calls</div>
+          <div class="mini-metric-value">5K</div>
+          <div class="mini-metric-sub">Stable volume across weekdays</div>
+        </div>
+        <div class="mini-metric">
+          <div class="mini-metric-label">Resolution rate</div>
+          <div class="mini-metric-value">81%</div>
+          <div class="mini-metric-sub">Once callers reach an agent</div>
+        </div>
+        <div class="mini-metric">
+          <div class="mini-metric-label">Avg. satisfaction</div>
+          <div class="mini-metric-value">3.4 / 5</div>
+          <div class="mini-metric-sub">Measured post-contact</div>
+        </div>
+      </div>
+
+      <div class="mini-metrics">
+        <div class="mini-metric">
+          <div class="mini-metric-label">Avg. speed of answer</div>
+          <div class="mini-metric-value">~68s</div>
+          <div class="mini-metric-sub">Target: 40-45s at peak</div>
+        </div>
+        <div class="mini-metric">
+          <div class="mini-metric-label">Abandoned calls</div>
+          <div class="mini-metric-value">946</div>
+          <div class="mini-metric-sub">19% of total demand</div>
+        </div>
+        <div class="mini-metric">
+          <div class="mini-metric-label">SLA met</div>
+          <div class="mini-metric-value">~9%</div>
+          <div class="mini-metric-sub">Answered within 20 seconds</div>
+        </div>
+      </div>
+
+      <div class="hero-card-foot">
+        <span>
+          <span class="highlight">Insight:</span>
+          the issue is structural. Queue and capacity design, not individual agents, drive SLA and abandonment.
+        </span>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Dashboard section -->
+  <section id="dashboard" aria-labelledby="dashboard-title">
+    <div class="section-heading">Dashboard</div>
+    <h2 class="section-title" id="dashboard-title">Call Center Performance Dashboard</h2>
+    <p class="section-subtitle">
+      The report is built as three focused pages: a main dashboard, topical analysis, and operations by time. Together they connect executive KPIs to queues, topics, and staffing patterns.
+    </p>
+
+    <div class="dashboard-layout">
+      <figure class="dashboard-card">
+        <img src="assets/call-center-dashboard-overview.png"
+             alt="Main dashboard tab showing KPI cards, call volume trend and SLA performance summary." />
+        <figcaption class="dashboard-card-caption">
+          <span>
+            <i class="fa-solid fa-circle-info"></i>
+            Main dashboard summarising KPIs and trends across the period.
+          </span>
+          <span class="chip"><i class="fa-solid fa-layer-group"></i> Entry point for leaders</span>
+        </figcaption>
+      </figure>
+
+      <aside class="dashboard-explainer">
+        <div class="explainer-tabs" role="tablist" aria-label="Dashboard perspectives">
+          <button class="explainer-tab active" data-explainer="business" type="button" role="tab">
+            Management summary
+          </button>
+          <button class="explainer-tab" data-explainer="technical" type="button" role="tab">
+            Data &amp; modelling
+          </button>
+        </div>
+
+        <div class="explainer-body" id="explainer-business" role="tabpanel">
+          <p>
+            Over the period, demand is steady at 675-770 calls per day. Staffing is flat at eight agents per
+            day, and demand clusters between 11:00 and 15:00. In this window SLA is weakest and abandonment is
+            highest. SLA by topic sits between 7-10%, and agent metrics occupy a narrow band for SLA,
+            answer speed and satisfaction. In short: the constraint is how work and capacity are organised,
+            not a specific queue or group of agents.
+          </p>
+          <p>
+            The report turns that diagnosis into an operating plan:
+          </p>
+          <ul class="explainer-bullets">
+            <li><strong>Rebuild the schedule around the 11:00-15:00 peak</strong> to bring peak-time answer speed down toward 40-45 seconds.</li>
+            <li><strong>Introduce a call-back offer beyond a wait-time threshold</strong> (e.g., 60 seconds) to convert a portion of the 946 abandoned calls into planned conversations.</li>
+            <li><strong>Streamline high-volume topics</strong> such as Streaming, Technical Support and Payment with short IVR pre-screening and self-service for common requests.</li>
+            <li><strong>Refine handle-time measurement</strong> (talk time plus wrap-up by interval) so staffing models target the specific hours where capacity changes will move SLA.</li>
+          </ul>
+
+          <div class="explainer-meta">
+            <span><i class="fa-solid fa-bullseye"></i> Focus on SLA &amp; abandonment in the queue</span>
+            <span><i class="fa-solid fa-users"></i> Uses agent data for coaching, not blame</span>
+            <span><i class="fa-solid fa-clock"></i> Highlights 11:00-15:00 as the critical interval</span>
+          </div>
+        </div>
+
+        <div class="explainer-body" id="explainer-technical" role="tabpanel" hidden>
+          <p>
+            The solution is built in Power BI on top of a call-level fact table. The model separates demand,
+            capacity and service outcomes so each can be analysed independently.
+          </p>
+          <ul class="explainer-bullets">
+            <li><strong>Model:</strong> star schema with <em>FactCalls</em> and dimensions for Agent, Topic, Date and Time.</li>
+            <li><strong>Measures:</strong> DAX measures for Total Calls, Answered Calls, Answer Rate, Avg Answer Speed, Abandoned Calls, Abandonment Rate and SLA Within Target.</li>
+            <li><strong>SLA logic:</strong> configurable SLA threshold (20 seconds in this report) with a measure for “calls answered within SLA” and the corresponding percentage.</li>
+            <li><strong>Visuals:</strong> KPI cards, volume/SLA trend line, SLA % by topic, calls by topic, operations-by-time heatmaps and performance-by-agent tables.</li>
+          </ul>
+          <p>
+            Data can be refreshed from SQL or CSV exports. Power Query handles cleaning, time-bucket creation
+            and topic mapping before the data reaches the model.
+          </p>
+
+          <div class="explainer-meta">
+            <span><i class="fa-solid fa-code"></i> Power BI · DAX · Power Query</span>
+            <span><i class="fa-solid fa-database"></i> SQL / flat-file sources</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Report pages -->
+    <h3 class="subsection-title">Report pages</h3>
+    <p class="section-subtitle">
+      Each tab is designed for a slightly different audience: leaders use the main dashboard; operational managers spend more time in the topical and time-based views.
+    </p>
+
+    <div class="dashboard-tabs-grid">
+      <!-- Main Dashboard -->
+      <article class="dashboard-tab-card">
+        <h3>Main Dashboard</h3>
+        <p>
+          High-level view of demand, SLA, abandonment and satisfaction, with a trend line that compares
+          call volume and SLA over time.
+        </p>
+        <figure class="dashboard-card">
+          <img src="assets/call-center-dashboard-overview.png"
+               alt="Main dashboard tab showing KPI cards, total calls and SLA trend, SLA by topic and calls by topic." />
+          <figcaption class="dashboard-card-caption">
+            <span><i class="fa-solid fa-gauge-high"></i> KPI cards and trends.</span>
+            <span class="chip"><i class="fa-solid fa-sliders"></i> Global slicers for topic, date and agent</span>
+          </figcaption>
+        </figure>
+        <ul>
+          <li>Explains the gap between strong resolution (81%) and weak SLA (~9%).</li>
+          <li>Gives leaders a single place to track abandonment and satisfaction together.</li>
+          <li>Acts as the hub page that links into deeper topical and operational analysis.</li>
+        </ul>
+      </article>
+
+      <!-- Topical Analysis -->
+      <article class="dashboard-tab-card">
+        <h3>Topical Analysis</h3>
+        <p>
+          Focuses on how Streaming, Technical Support, Payment, Admin and Contract calls differ in volume,
+          SLA and satisfaction.
+        </p>
+        <figure class="dashboard-card">
+          <img src="assets/call-center-dashboard-topical-analysis.png"
+               alt="Topical analysis tab showing SLA % by topic and calls by topic." />
+          <figcaption class="dashboard-card-caption">
+            <span><i class="fa-solid fa-chart-bar"></i> SLA % and call volume by topic.</span>
+            <span class="chip"><i class="fa-solid fa-tags"></i> Topic-level drill-down</span>
+          </figcaption>
+        </figure>
+        <ul>
+          <li>Identifies which topics create the most pressure on the queue.</li>
+          <li>Highlights where pre-screening and self-service will have the highest impact.</li>
+          <li>Supports conversation design work with product and CX teams.</li>
+        </ul>
+      </article>
+
+      <!-- Operations by Time -->
+      <article class="dashboard-tab-card">
+        <h3>Operations by Time</h3>
+        <p>
+          Heatmaps and staffing diagnostics show when the centre is overloaded and where next changes to
+          shifts will move SLA and abandonment.
+        </p>
+        <figure class="dashboard-card">
+          <img src="assets/call-center-dashboard-operations-by-time.png"
+               alt="Operations by Time tab showing call demand and SLA heatmaps by weekday and hour, plus required agents vs actual." />
+          <figcaption class="dashboard-card-caption">
+            <span><i class="fa-solid fa-clock"></i> Call demand and SLA by weekday and hour.</span>
+            <span class="chip"><i class="fa-solid fa-users"></i> Actual vs required agents</span>
+          </figcaption>
+        </figure>
+        <ul>
+          <li>Points to 11:00-15:00 as the period where demand outstrips flat staffing.</li>
+          <li>Uses total talk time and target occupancy to estimate required agents per time block.</li>
+          <li>Helps reallocate existing FTE before considering new headcount.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- Metrics section -->
+  <section id="metrics" aria-labelledby="metrics-title">
+    <div class="section-heading">Metric deep dive</div>
+    <h2 class="section-title" id="metrics-title">How each KPI supports the recommendations</h2>
+    <p class="section-subtitle">
+      Select a metric to see the definition, calculation and how it feeds into scheduling,
+      call-back design and self-service decisions.
+    </p>
+
+    <div class="metrics-grid">
+      <div class="metric-cards" aria-label="Metric cards">
+        <article class="metric-card" data-metric="total-calls" data-kpi="5K">
+          <div class="metric-name">
+            Total Calls
+            <span class="metric-chip">Demand</span>
+          </div>
+          <div class="metric-value">5K</div>
+          <div class="metric-sub">Inbound calls over the three-month period.</div>
+          <div class="metric-tagline">Basis for sizing capacity and call-back volume.</div>
+        </article>
+
+        <article class="metric-card" data-metric="answered-calls" data-kpi="4.1K">
+          <div class="metric-name">
+            Answered Calls
+            <span class="metric-chip">Service</span>
+          </div>
+          <div class="metric-value">4.1K</div>
+          <div class="metric-sub">Calls that reached an agent.</div>
+          <div class="metric-tagline">Used to separate queue losses from agent performance.</div>
+        </article>
+
+        <article class="metric-card" data-metric="answer-rate" data-kpi="81%">
+          <div class="metric-name">
+            Answer Rate
+            <span class="metric-chip">Accessibility</span>
+          </div>
+          <div class="metric-value">81%</div>
+          <div class="metric-sub">Answered calls as a share of total calls.</div>
+          <div class="metric-tagline">Shows how much demand is actually served.</div>
+        </article>
+
+        <article class="metric-card" data-metric="avg-answer-speed" data-kpi="68s">
+          <div class="metric-name">
+            Avg. Answer Speed
+            <span class="metric-chip">Queue</span>
+          </div>
+          <div class="metric-value">68s</div>
+          <div class="metric-sub">Average wait before an agent answers.</div>
+          <div class="metric-tagline">Core input to SLA and schedule design.</div>
+        </article>
+
+        <article class="metric-card" data-metric="abandoned-calls" data-kpi="946">
+          <div class="metric-name">
+            Abandoned Calls
+            <span class="metric-chip">Lost demand</span>
+          </div>
+          <div class="metric-value">946</div>
+          <div class="metric-sub">Customers who hang up before reaching an agent.</div>
+          <div class="metric-tagline">Primary target for call-back and self-service.</div>
+        </article>
+
+        <article class="metric-card" data-metric="abandonment-rate" data-kpi="19%">
+          <div class="metric-name">
+            Abandonment Rate
+            <span class="metric-chip">Customer impact</span>
+          </div>
+          <div class="metric-value">19%</div>
+          <div class="metric-sub">Abandoned calls as a share of total calls.</div>
+          <div class="metric-tagline">Links queue performance to customer experience.</div>
+        </article>
+
+        <article class="metric-card" data-metric="sla-topic" data-kpi="By topic">
+          <div class="metric-name">
+            SLA % by Topic
+            <span class="metric-chip">Quality</span>
+          </div>
+          <div class="metric-value">7-10%</div>
+          <div class="metric-sub">Within-SLA rate by issue type.</div>
+          <div class="metric-tagline">Identifies where scripting and flows need work.</div>
+        </article>
+
+        <article class="metric-card" data-metric="agent-performance" data-kpi="Per agent">
+          <div class="metric-name">
+            Performance by Agent
+            <span class="metric-chip">People</span>
+          </div>
+          <div class="metric-value">Jim · Dan · Becky · Martha</div>
+          <div class="metric-sub">SLA, answer speed, duration and satisfaction.</div>
+          <div class="metric-tagline">Confirms constraint is structural, not individual.</div>
+        </article>
+      </div>
+
+      <aside class="metric-detail-panel" aria-live="polite">
+        <div class="metric-detail-header">
+          <div class="metric-detail-title" id="metric-title">Metric details</div>
+          <div class="metric-detail-kpi" id="metric-kpi">Select a KPI</div>
+        </div>
+        <div class="metric-detail-formula" id="metric-formula">
+          Click a metric card to see the DAX-style formula and how it supports decision-making.
+        </div>
+        <div class="metric-detail-body" id="metric-body">
+          <h4>Business context</h4>
+          <p>
+            The dashboard groups metrics into demand, queue performance and agent outcomes. Looking at them
+            together highlights that the main opportunity is in the queue and schedule rather than agent
+            behaviour.
+          </p>
+          <h4>Example questions it answers</h4>
+          <ul>
+            <li>Where is demand outstripping capacity by hour or topic?</li>
+            <li>How much abandonment can we realistically remove with better scheduling?</li>
+            <li>Do agents perform consistently once customers get through to them?</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Process & Skills -->
+  <section id="process" aria-labelledby="process-title">
+    <div class="section-heading">Approach &amp; skills</div>
+    <h2 class="section-title" id="process-title">From raw call logs to an operating plan</h2>
+    <p class="section-subtitle">
+      The same approach applies across BI and analytics work: start from the decision, build a clean model,
+      then use the visuals to test and refine the plan with stakeholders.
+    </p>
+
+    <div class="process-grid">
+      <div>
+        <ul class="timeline">
+          <li class="timeline-item">
+            <div class="timeline-item-title">1. Frame the decisions</div>
+            <div class="timeline-item-text">
+              Align with team leaders on what must change: reduce abandonment, restore SLA, or rebalance
+              workload. Translate those goals into measurable targets and a clear scope for the dashboard.
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-item-title">2. Build a robust data model</div>
+            <div class="timeline-item-text">
+              Restructure call logs into a star schema. Define consistent measures for volume, service levels,
+              wait times and satisfaction so every visual tells the same story.
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-item-title">3. Expose the operational levers</div>
+            <div class="timeline-item-text">
+              Design visuals that separate demand from capacity: call volume and SLA trends, weekday and time-of-day
+              patterns, topic mix and agent metrics. This makes the impact of schedule changes or call-back
+              rules visible.
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-item-title">4. Turn insight into actions</div>
+            <div class="timeline-item-text">
+              Use the dashboard in working sessions to test options such as shifting agents into the 11:00-15:00
+              peak, setting a call-back threshold, or simplifying high-volume flows. Document the agreed actions
+              alongside the metrics they aim to move.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">
+          Selected skills and tools demonstrated in this project:
+        </div>
+        <div class="skills-grid" aria-label="Skills and tools">
+          <div class="skill-card">
+            <h4><i class="fa-solid fa-chart-pie"></i> Business Intelligence</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Power BI</span>
+              <span class="skill-tag">DAX measures</span>
+              <span class="skill-tag">Interactive reports</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4><i class="fa-solid fa-database"></i> Data modelling</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Star schema</span>
+              <span class="skill-tag">Fact / dimension design</span>
+              <span class="skill-tag">Data quality checks</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4><i class="fa-solid fa-code"></i> Data engineering</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">SQL extraction</span>
+              <span class="skill-tag">Power Query</span>
+              <span class="skill-tag">Transform &amp; load</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4><i class="fa-solid fa-brain"></i> Analysis</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Queue diagnostics</span>
+              <span class="skill-tag">Operational KPIs</span>
+              <span class="skill-tag">Scenario testing</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4><i class="fa-solid fa-user-group"></i> Stakeholder work</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Requirements gathering</span>
+              <span class="skill-tag">Executive summaries</span>
+              <span class="skill-tag">Workshops</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4><i class="fa-solid fa-lock"></i> Governance</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Metric definitions</span>
+              <span class="skill-tag">Version control (GitHub)</span>
+              <span class="skill-tag">Documentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Contact & social -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="section-heading">Contact</div>
+    <h2 class="section-title" id="contact-title">Let’s connect</h2>
+    <p class="section-subtitle">
+      If this case study resonates with how you think about operations and data,
+      feel free to connect or reach out. I’m open to solutions analyst, business intelligence, data analyst, and other business analyst roles.
+    </p>
+
+    <div class="contact-card">
+      <div class="contact-socials contact-socials-main">
+        <a class="social-pill social-pill-large"
+           href="https://www.linkedin.com/in/thomas-gigli/"
+           target="_blank" rel="noreferrer">
+          <i class="fa-brands fa-linkedin"></i>
+          <span>Connect on LinkedIn</span>
+        </a>
+
+        <a class="social-pill social-pill-large"
+           href="https://github.com/thomas-gigli"
+           target="_blank" rel="noreferrer">
+          <i class="fa-brands fa-github"></i>
+          <span>View GitHub</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Dashboard explainer tabs
+  const explainerTabs = document.querySelectorAll(".explainer-tab");
+  const explainerBusiness = document.getElementById("explainer-business");
+  const explainerTechnical = document.getElementById("explainer-technical");
+
+  explainerTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      explainerTabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      const mode = tab.dataset.explainer;
+      const showBusiness = mode === "business";
+      explainerBusiness.hidden = !showBusiness;
+      explainerTechnical.hidden = showBusiness;
+    });
+  });
+
+  // Metric detail panel
+  const metricCards = document.querySelectorAll(".metric-card");
+  const metricTitleEl = document.getElementById("metric-title");
+  const metricKpiEl = document.getElementById("metric-kpi");
+  const metricFormulaEl = document.getElementById("metric-formula");
+  const metricBodyEl = document.getElementById("metric-body");
+
+  const metricDetails = {
+    "total-calls": {
+      title: "Total Calls",
+      formula: "Total Calls = COUNTROWS(FactCalls)",
+      business: "Total Calls is the starting point for every discussion on capacity. It shows how much demand the centre must absorb and is used to size the schedule, call-back volumes and the impact of any self-service initiative.",
+      questions: [
+        "How has demand changed compared with the previous period?",
+        "Are we scheduling enough agents to cover the observed volume?",
+        "Which topics contribute most to overall demand and therefore to agent workload?"
+      ]
+    },
+    "answered-calls": {
+      title: "Answered Calls",
+      formula: "Answered Calls = CALCULATE([Total Calls], FactCalls[CallStatus] = \"Answered\")",
+      business: "Answered Calls separates demand that was actually served from calls that abandoned in the queue. It is a practical way to see how much of the 5,000 calls resulted in a real conversation.",
+      questions: [
+        "How many calls move from the queue into conversations with agents?",
+        "Does answered volume fall away during the 11:00-15:00 peak?",
+        "After schedule changes, are we converting more of the incoming calls into handled calls?"
+      ]
+    },
+    "answer-rate": {
+      title: "Answer Rate",
+      formula: "Answer Rate = DIVIDE([Answered Calls], [Total Calls])",
+      business: "Answer Rate shows how accessible the centre is. An 81% rate with strong satisfaction indicates that the main loss occurs before callers reach agents, which supports investment in queue and scheduling changes.",
+      questions: [
+        "Is our overall answer rate improving or slipping month on month?",
+        "Are certain weekdays or topics associated with a weaker answer rate?",
+        "How does answer rate move when we introduce a call-back option?"
+      ]
+    },
+    "avg-answer-speed": {
+      title: "Average Answer Speed",
+      formula: "Avg Answer Speed = AVERAGE(FactCalls[SecondsToAnswer])",
+      business: "Average Answer Speed expresses queue performance in seconds. With a baseline of roughly 67.5 seconds and a target of 40-45 seconds in peak hours, it provides a clear numeric goal for schedule redesign.",
+      questions: [
+        "What is the current average wait at peak versus off-peak hours?",
+        "Which days show the longest waits and should be prioritised for schedule changes?",
+        "After moving capacity into 11:00-15:00, does average answer speed actually fall?"
+      ]
+    },
+    "abandoned-calls": {
+      title: "Abandoned Calls",
+      formula: "Abandoned Calls = CALCULATE([Total Calls], FactCalls[CallStatus] = \"Abandoned\")",
+      business: "Abandoned Calls quantify the 946 customers who left the queue before speaking to anyone. This metric underpins the business case for call-backs and for simplifying high-volume flows.",
+      questions: [
+        "In which hours do most abandonments occur?",
+        "How many abandonments can we reasonably expect to convert into call-backs?",
+        "Are specific topics more prone to abandonment and therefore worth streamlining?"
+      ]
+    },
+    "abandonment-rate": {
+      title: "Abandonment Rate",
+      formula: "Abandonment Rate = DIVIDE([Abandoned Calls], [Total Calls])",
+      business: "Abandonment Rate expresses the 946 lost calls as a percentage of overall demand. At 19% it is high enough to warrant structural changes and is straightforward to track as those changes are implemented.",
+      questions: [
+        "Does abandonment fall after schedule or call-back adjustments?",
+        "Which combinations of weekday and time show the highest abandonment rates?",
+        "Is abandonment higher for specific topics or campaigns?"
+      ]
+    },
+    "sla-topic": {
+      title: "SLA % by Topic",
+      formula: "SLA % by Topic = DIVIDE([Calls Answered Within Target], [Answered Calls]) per Topic",
+      business: "SLA % by Topic shows where customers are waiting too long for specific issues. With SLA ranging from roughly 7-10% across topics, it highlights which flows will benefit most from pre-screening and self-service.",
+      questions: [
+        "Which topics consistently miss the 20-second SLA?",
+        "Where would a short IVR step or self-service have the biggest impact?",
+        "Do complex topics need a different SLA target than simple enquiries?"
+      ]
+    },
+    "agent-performance": {
+      title: "Performance by Agent",
+      formula: "Per-agent view of [Answered Calls], [SLA %], [Average Duration], [Avg Satisfaction], [Answer Rate]",
+      business: "The agent table shows that SLA, answer speed and satisfaction sit in a narrow band across agents. This pattern supports the conclusion that the main issue is structural, not individual, while still highlighting coaching opportunities.",
+      questions: [
+        "Are there any outliers in SLA, satisfaction or handle time that warrant coaching?",
+        "Is workload distributed fairly between agents across the week?",
+        "Does the change in schedule affect agents differently in terms of volume and outcomes?"
+      ]
+    }
+  };
+
+  function updateMetricDetails(card) {
+    const metricKey = card.dataset.metric;
+    const data = metricDetails[metricKey];
+    if (!data) return;
+
+    metricCards.forEach(c => c.classList.remove("active"));
+    card.classList.add("active");
+
+    metricTitleEl.textContent = data.title;
+    metricKpiEl.textContent = card.dataset.kpi || "";
+    metricFormulaEl.textContent = data.formula;
+
+    const businessHtml = `
+      <h4>Business context</h4>
+      <p>${data.business}</p>
+      <h4>Example questions it answers</h4>
+      <ul>${data.questions.map(q => `<li>${q}</li>`).join("")}</ul>
+    `;
+    metricBodyEl.innerHTML = businessHtml;
+
+    if (window.innerWidth < 880) {
+      metricBodyEl.parentElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  metricCards.forEach(card => {
+    card.addEventListener("click", () => updateMetricDetails(card));
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const firstCard = document.querySelector(".metric-card");
+    if (firstCard) updateMetricDetails(firstCard);
+  });
+</script>
+</body>
+</html>
